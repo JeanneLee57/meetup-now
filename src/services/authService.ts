@@ -1,13 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@/utils/supabase/server';
 import { SignUpData, SignInData } from '@/types/interface';
-
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export class AuthService {
   static async signUp({ email, password, name }: SignUpData) {
+    const supabase = await createClient();
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -23,6 +19,7 @@ export class AuthService {
   }
 
   static async signIn({ email, password }: SignInData) {
+    const supabase = await createClient();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -33,6 +30,7 @@ export class AuthService {
   }
 
   static async signOut() {
+    const supabase = await createClient();
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
   }
