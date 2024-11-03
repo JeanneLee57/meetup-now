@@ -79,6 +79,7 @@ export default function Home() {
               accept="image/*"
               className="mt-1 block w-full"
               id="image"
+              name="image"
               type="file"
             />
           </div>
@@ -94,6 +95,7 @@ export default function Home() {
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
               id="description"
+              name="description"
               rows={4}
             />
           </div>
