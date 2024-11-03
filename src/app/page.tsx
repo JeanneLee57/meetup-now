@@ -1,37 +1,6 @@
-import { createClient } from '@supabase/supabase-js';
-import { EventData } from '@/types/interface';
-
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabaseServer = createClient(supabaseUrl, supabaseServiceKey, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
+import { createEvent } from '@/actions/eventActions';
 
 export default function Home() {
-  async function createEvent(formData: FormData) {
-    'use server';
-
-    const eventData: EventData = {
-      title: formData.get('title') as string,
-      datetime: formData.get('datetime') as string,
-      location: formData.get('location') as string,
-      organizer: formData.get('organizer') as string,
-      description: formData.get('description') as string,
-      is_public: formData.get('visibility') === 'public',
-    };
-
-    try {
-      const { error } = await supabaseServer.from('events').insert([eventData]);
-      if (error) throw error;
-    } catch (error) {
-      console.error('이벤트 생성 중 오류 발생:', error);
-      throw error;
-    }
-  }
-
   return (
     <div>
       <main className="p-4">
