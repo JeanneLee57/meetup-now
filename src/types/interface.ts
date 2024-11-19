@@ -7,3 +7,13 @@ export interface EventData {
   is_public: boolean;
   image_url?: string;
 }
+export interface SignUpData {
+  email: string;
+  password: string;
+  name?: string;
+}
+
+export interface SignInData {
+  email: string;
+  password: string;
+}
