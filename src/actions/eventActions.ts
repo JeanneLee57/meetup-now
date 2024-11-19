@@ -43,3 +43,13 @@ export async function createEvent(formData: FormData) {
     throw error;
   }
 }
+
+export async function getEvent() {
+  try {
+    const { data } = await EventService.getEvent();
+    return data;
+  } catch (error) {
+    console.error('이벤트 생성 중 오류 발생:', error);
+    throw error;
+  }
+}

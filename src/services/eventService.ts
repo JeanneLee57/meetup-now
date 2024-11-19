@@ -8,4 +8,11 @@ export class EventService {
     if (error) throw error;
     return { success: true };
   }
+
+  static async getEvent() {
+    const supabase = await createClient();
+    const { error, data } = await supabase.from('events').select('*');
+    if (error) throw error;
+    return { data };
+  }
 }
