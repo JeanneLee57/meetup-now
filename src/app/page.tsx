@@ -1,4 +1,5 @@
 import { createEvent } from '@/actions/eventActions';
+import Button from '@/components/Button';
 
 export default function Home() {
   return (
@@ -129,12 +130,12 @@ export default function Home() {
           </div>
 
           <div className="pt-4">
-            <button
-              className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+            <Button
+              className="w-full bg-primary font-bold py-2 px-4 rounded-md hover:bg-secondary transition-colors"
+              label={'이벤트 생성하기'}
               type="submit"
-            >
-              이벤트 생성하기
-            </button>
+              variant={'primary'}
+            />
           </div>
         </form>
       </main>

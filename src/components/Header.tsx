@@ -1,19 +1,24 @@
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/server';
 import { SignOutButton } from '@/components/SignOutButton';
+import logo from '/public/logo.svg';
+import Image from 'next/image';
+import Button from '@/components/Button';
 
 export async function Header() {
   const supabase = await createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const { data: session } = await supabase.auth.getUser();
 
   return (
     <header className="border-b bg-white">
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <Link className="text-xl font-bold text-gray-900" href="/">
+            <Link
+              className="flex gap-2 text-xl font-bold text-gray-900"
+              href="/"
+            >
+              <Image alt="logo" height={30} src={logo} width={30} />
               meetup-now
             </Link>
 
@@ -31,7 +36,7 @@ export async function Header() {
           </div>
 
           <div className="hidden md:flex items-center gap-4">
-            {session ? (
+            {session.user ? (
               <>
                 <Link
                   className="text-gray-600 hover:text-gray-900"
@@ -57,11 +62,8 @@ export async function Header() {
                 >
                   로그인
                 </Link>
-                <Link
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                  href="/signup"
-                >
-                  회원가입
+                <Link href="/signup">
+                  <Button label={'회원가입'} variant={'primary'} />
                 </Link>
               </>
             )}
