@@ -10,6 +10,7 @@ export async function createEvent(formData: FormData) {
     title: formData.get('title') as string,
     datetime: formData.get('datetime') as string,
     location: formData.get('location') as string,
+    address: formData.get('address') as string,
     organizer: formData.get('organizer') as string,
     description: formData.get('description') as string,
     is_public: formData.get('visibility') === 'public',

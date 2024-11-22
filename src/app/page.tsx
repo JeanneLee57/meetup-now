@@ -1,6 +1,6 @@
 import { createEvent } from '@/actions/eventActions';
 import Button from '@/components/Button';
-
+import LocationSearch from '@/components/LocationSearch';
 export default function Home() {
   return (
     <div>
@@ -16,7 +16,7 @@ export default function Home() {
             </label>
             <input
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
               id="title"
               name="title"
               type="text"
@@ -27,10 +27,12 @@ export default function Home() {
             <label
               className="block text-sm font-medium text-gray-700"
               htmlFor="datetime"
-            ></label>
+            >
+              날짜 및 시간
+            </label>
             <input
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
               id="datetime"
               name="datetime"
               type="datetime-local"
@@ -44,13 +46,7 @@ export default function Home() {
             >
               장소
             </label>
-            <input
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              id="location"
-              name="location"
-              type="text"
-            />
+            <LocationSearch />
           </div>
 
           <div>
@@ -62,7 +58,7 @@ export default function Home() {
             </label>
             <input
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
               id="organizer"
               name="organizer"
               type="text"
@@ -78,7 +74,7 @@ export default function Home() {
             </label>
             <input
               accept="image/*"
-              className="mt-1 block w-full"
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
               id="image"
               name="image"
               type="file"
@@ -94,7 +90,7 @@ export default function Home() {
             </label>
             <textarea
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
               id="description"
               name="description"
               rows={4}
