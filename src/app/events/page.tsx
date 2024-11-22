@@ -1,45 +1,150 @@
-import React from 'react';
-import { getEvent } from '@/actions/eventActions';
-import { EventData } from '@/types/interface';
+import { createEvent } from '@/actions/eventActions';
+import Button from '@/components/Button';
+import LocationSearch from '@/components/LocationSearch';
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
-const EventsPage = async () => {
-  const data: EventData[] = await getEvent();
-  console.log(data);
+export default async function Home() {
+  const supabase = await createClient();
+  const { data: session } = await supabase.auth.getUser();
+
+  if (!session.user) {
+    redirect('/signin');
+  }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">이벤트 목록</h1>
-      <ul>
-        {data.map((event) => (
-          <li key={event.id} className="border-b py-4">
-            <div className="flex items-center">
-              {event.image_url && (
-                <img
-                  alt={event.title}
-                  className="w-16 h-16 mr-4 rounded"
-                  src={event.image_url}
+    <div>
+      <main className="p-4">
+        <h1 className="text-center mb-6">새 이벤트를 계획해 보세요!</h1>
+        <form action={createEvent} className="max-w-2xl mx-auto p-6 space-y-6">
+          <div>
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="title"
+            >
+              이벤트 제목
+            </label>
+            <input
+              required
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
+              id="title"
+              name="title"
+              type="text"
+            />
+          </div>
+
+          <div>
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="datetime"
+            >
+              날짜 및 시간
+            </label>
+            <input
+              required
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
+              id="datetime"
+              name="datetime"
+              type="datetime-local"
+            />
+          </div>
+
+          <div>
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="location"
+            >
+              장소
+            </label>
+            <LocationSearch />
+          </div>
+
+          <div>
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="organizer"
+            >
+              주최자
+            </label>
+            <input
+              required
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
+              id="organizer"
+              name="organizer"
+              type="text"
+            />
+          </div>
+
+          <div>
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="image"
+            >
+              사진
+            </label>
+            <input
+              accept="image/*"
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
+              id="image"
+              name="image"
+              type="file"
+            />
+          </div>
+
+          <div>
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="description"
+            >
+              설명
+            </label>
+            <textarea
+              required
+              className="w-full p-3 rounded-md border border-border focus:outline-none"
+              id="description"
+              name="description"
+              rows={4}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              참가자 공개 설정
+            </label>
+            <div className="mt-2">
+              <div className="flex items-center">
+                <input
+                  className="mr-2"
+                  id="public"
+                  name="visibility"
+                  type="radio"
+                  value="public"
                 />
-              )}
-              <div>
-                <h2 className="text-xl font-semibold">{event.title}</h2>
-                <p className="text-sm text-gray-600">
-                  {new Date(event.datetime).toLocaleString()}
-                </p>
-                <p className="text-sm">{event.location}</p>
-                <p className="text-sm text-gray-800">{event.organizer}</p>
-                <p className="text-sm mt-2">{event.description}</p>
-                <p
-                  className={`text-sm mt-2 ${event.is_public ? 'text-green-600' : 'text-red-600'}`}
-                >
-                  {event.is_public ? '공개 이벤트' : '비공개 이벤트'}
-                </p>
+                <label htmlFor="public">공개</label>
+              </div>
+              <div className="flex items-center mt-2">
+                <input
+                  className="mr-2"
+                  id="private"
+                  name="visibility"
+                  type="radio"
+                  value="private"
+                />
+                <label htmlFor="private">비공개</label>
               </div>
             </div>
-          </li>
-        ))}
-      </ul>
+          </div>
+
+          <div className="pt-4">
+            <Button
+              className="w-full bg-primary font-bold py-2 px-4 rounded-md hover:bg-secondary transition-colors"
+              label={'이벤트 생성하기'}
+              type="submit"
+              variant={'primary'}
+            />
+          </div>
+        </form>
+      </main>
     </div>
   );
-};
-
-export default EventsPage;
+}

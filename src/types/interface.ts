@@ -3,6 +3,7 @@ export interface EventData {
   title: string;
   datetime: string;
   location: string;
+  address: string;
   organizer: string;
   description: string;
   is_public: boolean;

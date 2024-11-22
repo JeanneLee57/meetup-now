@@ -1,144 +1,48 @@
-import { createEvent } from '@/actions/eventActions';
-import Button from '@/components/Button';
+import React from 'react';
+import { getEvent } from '@/actions/eventActions';
+import { EventData } from '@/types/interface';
+import EventMap from '@/components/EventMap';
 
-export default function Home() {
+const EventsPage = async () => {
+  const data: EventData[] = await getEvent();
+
   return (
-    <div>
-      <main className="p-4">
-        <h1 className="text-center mb-6">새 이벤트를 계획해 보세요!</h1>
-        <form action={createEvent} className="max-w-2xl mx-auto p-6 space-y-6">
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="title"
-            >
-              이벤트 제목
-            </label>
-            <input
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              id="title"
-              name="title"
-              type="text"
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="datetime"
-            ></label>
-            <input
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              id="datetime"
-              name="datetime"
-              type="datetime-local"
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="location"
-            >
-              장소
-            </label>
-            <input
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              id="location"
-              name="location"
-              type="text"
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="organizer"
-            >
-              주최자
-            </label>
-            <input
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              id="organizer"
-              name="organizer"
-              type="text"
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="image"
-            >
-              사진
-            </label>
-            <input
-              accept="image/*"
-              className="mt-1 block w-full"
-              id="image"
-              name="image"
-              type="file"
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700"
-              htmlFor="description"
-            >
-              설명
-            </label>
-            <textarea
-              required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-              id="description"
-              name="description"
-              rows={4}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              참가자 공개 설정
-            </label>
-            <div className="mt-2">
-              <div className="flex items-center">
-                <input
-                  className="mr-2"
-                  id="public"
-                  name="visibility"
-                  type="radio"
-                  value="public"
+    <div className="p-4">
+      <h1 className="text-2xl font-bold mb-4">
+        당신 주변의 이벤트를 찾아보세요!
+      </h1>
+      <EventMap events={data} />
+      <ul>
+        {data.map((event) => (
+          <li key={event.id} className="border-b py-4">
+            <div className="flex items-center">
+              {event.image_url && (
+                <img
+                  alt={event.title}
+                  className="w-16 h-16 mr-4 rounded"
+                  src={event.image_url}
                 />
-                <label htmlFor="public">공개</label>
-              </div>
-              <div className="flex items-center mt-2">
-                <input
-                  className="mr-2"
-                  id="private"
-                  name="visibility"
-                  type="radio"
-                  value="private"
-                />
-                <label htmlFor="private">비공개</label>
+              )}
+              <div>
+                <h2 className="text-xl font-semibold">{event.title}</h2>
+                <p className="text-sm text-gray-600">
+                  {new Date(event.datetime).toLocaleString()}
+                </p>
+                <p className="text-sm">{event.location}</p>
+                <p className="text-sm text-gray-800">{event.organizer}</p>
+                <p className="text-sm mt-2">{event.description}</p>
+                <p
+                  className={`text-sm mt-2 ${event.is_public ? 'text-green-600' : 'text-red-600'}`}
+                >
+                  {event.is_public ? '공개 이벤트' : '비공개 이벤트'}
+                </p>
               </div>
             </div>
-          </div>
-
-          <div className="pt-4">
-            <Button
-              className="w-full bg-primary font-bold py-2 px-4 rounded-md hover:bg-secondary transition-colors"
-              label={'이벤트 생성하기'}
-              type="submit"
-              variant={'primary'}
-            />
-          </div>
-        </form>
-      </main>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
+
+export default EventsPage;

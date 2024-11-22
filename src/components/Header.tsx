@@ -21,8 +21,10 @@ export async function Header() {
               <Image alt="logo" height={30} src={logo} width={30} />
               meetup-now
             </Link>
-
-            <nav className="hidden md:flex items-center gap-6">
+            <Link className="text-gray-600 hover:text-gray-900" href="/events">
+              이벤트 생성
+            </Link>
+            {/* <nav className="hidden md:flex items-center gap-6">
               <Link
                 className="text-gray-600 hover:text-gray-900"
                 href="/events"
@@ -32,28 +34,20 @@ export async function Header() {
               <Link className="text-gray-600 hover:text-gray-900" href="/about">
                 소개
               </Link>
-            </nav>
+            </nav> */}
           </div>
 
           <div className="hidden md:flex items-center gap-4">
             {session.user ? (
-              <>
+              <div className="flex items-center gap-4">
                 <Link
                   className="text-gray-600 hover:text-gray-900"
-                  href="/events/create"
+                  href="/dashboard"
                 >
-                  이벤트 생성
+                  {session.user.email}
                 </Link>
-                <div className="flex items-center gap-4">
-                  <Link
-                    className="text-gray-600 hover:text-gray-900"
-                    href="/dashboard"
-                  >
-                    {session.user.email}
-                  </Link>
-                  <SignOutButton />
-                </div>
-              </>
+                <SignOutButton />
+              </div>
             ) : (
               <>
                 <Link
