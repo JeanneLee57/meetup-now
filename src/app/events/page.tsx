@@ -1,14 +1,15 @@
 import React from 'react';
 import { getEvent } from '@/actions/eventActions';
 import { EventData } from '@/types/interface';
+import EventMap from '@/components/EventMap';
 
 const EventsPage = async () => {
   const data: EventData[] = await getEvent();
-  console.log(data);
 
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">이벤트 목록</h1>
+      <EventMap events={data} />
       <ul>
         {data.map((event) => (
           <li key={event.id} className="border-b py-4">
