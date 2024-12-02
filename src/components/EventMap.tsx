@@ -69,7 +69,9 @@ const EventMap = ({ events }: EventMapProps) => {
 
         const map = new window.kakao.maps.Map(container, options);
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const markers: any[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const overlays: any[] = [];
 
         // 기존 마커 및 오버레이 제거
