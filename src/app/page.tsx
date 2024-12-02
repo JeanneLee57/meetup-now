@@ -13,7 +13,7 @@ const EventsPage = async () => {
       </h1>
       <EventMap events={data} />
       <ul>
-        {data.map((event) => (
+        {/* {data.map((event) => (
           <li key={event.id} className="border-b py-4">
             <div className="flex items-center">
               {event.image_url && (
@@ -39,7 +39,7 @@ const EventsPage = async () => {
               </div>
             </div>
           </li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );

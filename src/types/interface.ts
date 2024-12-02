@@ -8,6 +8,8 @@ export interface EventData {
   description: string;
   is_public: boolean;
   image_url?: string;
+  latitude: number;
+  longitude: number;
 }
 export interface SignUpData {
   email: string;

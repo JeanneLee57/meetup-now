@@ -22,49 +22,38 @@ const EventMap = ({ events }: EventMapProps) => {
 
         const map = new window.kakao.maps.Map(container, options);
 
-        events.forEach((event) => {
-          const geocoder = new window.kakao.maps.services.Geocoder();
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          geocoder.addressSearch(event.address, (result: any, status: any) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              const coords = new window.kakao.maps.LatLng(
-                result[0].y,
-                result[0].x
-              );
-
-              const marker = new window.kakao.maps.Marker({
-                map: map,
-                position: coords,
-              });
-
-              const infowindow = new window.kakao.maps.InfoWindow({
-                content: `
-                  <div style="padding:5px;font-size:12px;">
-                    <strong>${event.title}</strong><br/>
-                    ${new Date(event.datetime).toLocaleDateString()}<br/>
-                    ${event.location}
-                  </div>
-                `,
-              });
-
-              window.kakao.maps.event.addListener(marker, 'mouseover', () => {
-                infowindow.open(map, marker);
-              });
-
-              window.kakao.maps.event.addListener(marker, 'mouseout', () => {
-                infowindow.close();
-              });
-            }
-          });
+        const clusterer = new window.kakao.maps.MarkerClusterer({
+          map: map, // 클러스터러 적용할 지도
+          averageCenter: true,
+          minLevel: 6,
+          gridSize: 240, // 클러스터 포함 범위
         });
+
+        const markers: any[] = [];
+
+        events.forEach((event) => {
+          const marker = new window.kakao.maps.Marker({
+            position: new window.kakao.maps.LatLng(
+              event.latitude,
+              event.longitude
+            ),
+          });
+
+          markers.push(marker);
+        });
+
+        clusterer.addMarkers(markers);
       });
     }
+    return () => {
+      //window.kakao.maps.event.removeAllListeners();
+    };
   }, [mapScript, events]);
 
   return (
     <div className="relative">
       <Script
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY}&libraries=services&autoload=false`}
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_APP_KEY}&libraries=services,clusterer&autoload=false`}
         strategy="afterInteractive"
         onLoad={() => setMapScript(true)}
       />
