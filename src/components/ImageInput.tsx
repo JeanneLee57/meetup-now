@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import { PiPencilSimpleFill } from 'react-icons/pi';
+import Modal from '@/components/Modal';
 
 const imageList = [
   { id: 1, src: '/posters/poster1.jpg', alt: 'poster1', tags: ['파티'] },
@@ -96,63 +97,49 @@ const ImageInput = () => {
         </div>
       </div>
       {showModal && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-          onClick={() => setShowModal(false)}
-        >
-          <div className="bg-white p-8 rounded-md max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold mb-4">포스터 선택</h1>
-              <div
-                className="flex justify-end mb-4 cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={() => setShowModal(false)}
-              >
-                <IoCloseOutline size={24} />
-              </div>
+        <Modal onClose={() => setShowModal(false)} title="포스터 선택">
+          <div className="flex flex-wrap gap-2 mb-4">
+            <div
+              className={`p-2 rounded-md cursor-pointer hover:opacity-80 transition-opacity ${
+                currentTag === null ? 'bg-primary' : 'bg-gray-200'
+              }`}
+              onClick={() => setCurrentTag(null)}
+            >
+              전체
             </div>
-            <div className="flex flex-wrap gap-2 mb-4">
+            {tags.map((tag) => (
               <div
+                key={tag}
                 className={`p-2 rounded-md cursor-pointer hover:opacity-80 transition-opacity ${
-                  currentTag === null ? 'bg-primary' : 'bg-gray-200'
+                  currentTag === tag ? 'bg-primary' : 'bg-gray-200'
                 }`}
-                onClick={() => setCurrentTag(null)}
+                onClick={() => handleTagClick(tag)}
               >
-                전체
+                {tag}
               </div>
-              {tags.map((tag) => (
-                <div
-                  key={tag}
-                  className={`p-2 rounded-md cursor-pointer hover:opacity-80 transition-opacity ${
-                    currentTag === tag ? 'bg-primary' : 'bg-gray-200'
-                  }`}
-                  onClick={() => handleTagClick(tag)}
-                >
-                  {tag}
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              {imageList
-                .filter((image) => {
-                  if (currentTag) {
-                    return image.tags.includes(currentTag);
-                  }
-                  return true;
-                })
-                .map((image) => (
-                  <Image
-                    key={image.id}
-                    src={image.src}
-                    alt={image.alt}
-                    width={200}
-                    height={200}
-                    className="cursor-pointer hover:opacity-80 transition-opacity"
-                    onClick={() => handleImageClick(image.src)}
-                  />
-                ))}
-            </div>
+            ))}
           </div>
-        </div>
+          <div className="grid grid-cols-3 gap-4">
+            {imageList
+              .filter((image) => {
+                if (currentTag) {
+                  return image.tags.includes(currentTag);
+                }
+                return true;
+              })
+              .map((image) => (
+                <Image
+                  key={image.id}
+                  src={image.src}
+                  alt={image.alt}
+                  width={200}
+                  height={200}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => handleImageClick(image.src)}
+                />
+              ))}
+          </div>
+        </Modal>
       )}
     </div>
   );
