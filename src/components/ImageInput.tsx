@@ -1,9 +1,9 @@
 'use client';
 
-import Button from '@/components/Button';
 import Image from 'next/image';
 import { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
+import { PiPencilSimpleFill } from 'react-icons/pi';
 
 const imageList = [
   { id: 1, src: '/posters/poster1.jpg', alt: 'poster1', tags: ['파티'] },
@@ -86,16 +86,20 @@ const ImageInput = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded-md overflow-hidden">
+      <div className="relative rounded-md overflow-hidden">
         <Image src={currentImage} alt="poster" width={800} height={800} />
+        <div
+          onClick={handleImageChange}
+          className="absolute bottom-8 right-8 rounded-full p-2 border border-gray-300 bg-white opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+        >
+          <PiPencilSimpleFill size={24} className="text-gray-900" />
+        </div>
       </div>
-      <Button
-        label="포스터 선택"
-        variant="primary"
-        onClick={handleImageChange}
-      />
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          onClick={() => setShowModal(false)}
+        >
           <div className="bg-white p-8 rounded-md max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center">
               <h1 className="text-2xl font-bold mb-4">포스터 선택</h1>
