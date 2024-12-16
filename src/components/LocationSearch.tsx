@@ -101,7 +101,6 @@ const LocationSearch = () => {
         </div>
       ) : (
         <SearchInput
-          required
           className="w-full"
           placeholder="장소를 검색하세요"
           value={keyword}
