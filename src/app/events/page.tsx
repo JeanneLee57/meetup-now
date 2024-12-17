@@ -4,6 +4,7 @@ import LocationSearch from '@/components/LocationSearch';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import ImageInput from '@/components/ImageInput';
+
 export default async function Home() {
   const supabase = await createClient();
   const { data: session } = await supabase.auth.getUser();
@@ -21,8 +22,8 @@ export default async function Home() {
               className="w-full p-3 rounded-md border border-border focus:outline-none"
               id="title"
               name="title"
-              type="text"
               placeholder="이벤트 제목을 입력하세요"
+              type="text"
             />
           </div>
 

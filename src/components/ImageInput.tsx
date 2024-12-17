@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { IoCloseOutline } from 'react-icons/io5';
 import { PiPencilSimpleFill } from 'react-icons/pi';
 import Modal from '@/components/Modal';
 
@@ -88,16 +87,16 @@ const ImageInput = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="relative rounded-md overflow-hidden">
-        <Image src={currentImage} alt="poster" width={800} height={800} />
+        <Image alt="poster" height={800} src={currentImage} width={800} />
         <div
-          onClick={handleImageChange}
           className="absolute bottom-8 right-8 rounded-full p-2 border border-gray-300 bg-white opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+          onClick={handleImageChange}
         >
-          <PiPencilSimpleFill size={24} className="text-gray-900" />
+          <PiPencilSimpleFill className="text-gray-900" size={24} />
         </div>
       </div>
       {showModal && (
-        <Modal onClose={() => setShowModal(false)} title="포스터 선택">
+        <Modal title="포스터 선택" onClose={() => setShowModal(false)}>
           <div className="flex flex-wrap gap-2 mb-4">
             <div
               className={`p-2 rounded-md cursor-pointer hover:opacity-80 transition-opacity ${
@@ -130,11 +129,11 @@ const ImageInput = () => {
               .map((image) => (
                 <Image
                   key={image.id}
-                  src={image.src}
                   alt={image.alt}
-                  width={200}
-                  height={200}
                   className="cursor-pointer hover:opacity-80 transition-opacity"
+                  height={200}
+                  src={image.src}
+                  width={200}
                   onClick={() => handleImageClick(image.src)}
                 />
               ))}
